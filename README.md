@@ -6,4 +6,5 @@
  input algorithm lambda removing-edges iteration time
  
  bunny regular 
+ 
  bunny fast 0.3 5000
