@@ -3,6 +3,8 @@
 #include <Eigen/SVD>
 #include <Eigen/Geometry>
 
+#include <fstream>
+
 using namespace Eigen;
 using namespace std;
 
@@ -288,7 +290,7 @@ void Stylization::reset(double lambda)
     this->_s.resize(this->_mesh->getNumVertices());
 }
 
-void Stylization::evalObjective()
+void Stylization::evalObjective(ofstream &out)
 {
     const size_t n = this->_V.size();
     double arap = 0.;
@@ -301,6 +303,7 @@ void Stylization::evalObjective()
         cube += this->_lambda * this->_a[i] * this->_z[i].lpNorm<1>();
     }
     cout << "ARAP: " << arap << "; Cube: " << cube << endl;
+    out << arap + cube << endl;
 }
 
 void Stylization::transform(double lambda, bool printObj)
@@ -316,12 +319,13 @@ void Stylization::transform(double lambda, bool printObj)
     int i = 0;
     const int bound = static_cast<int>(this->_V.size() * .95);
     int count;
+    ofstream out("outputs/obj.csv");
     do {
         this->localStep();
         this->globalStep();
         // Print the objective.
         if (printObj) {
-            this->evalObjective();
+            this->evalObjective(out);
         }
         // Calculate the tolerances.
         count = 0;
@@ -333,6 +337,7 @@ void Stylization::transform(double lambda, bool printObj)
             }
         }
     } while (++i < 1000 && count < bound);
+    out.close();
     cout << "Number of iterations: " << i << endl;
 }
 

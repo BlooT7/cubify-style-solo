@@ -46,7 +46,7 @@ private:
     void updateU(std::vector<Eigen::Vector3d> &ret);
     void updateRho(const std::vector<Eigen::Vector3d> &tempU);
     void evalTerminate();
-    void evalObjective();
+    void evalObjective(std::ofstream &out);
     void localStep();
     void globalStep();
     void validate();

@@ -71,11 +71,11 @@ int main(int argc, char *argv[])
     cout << "Lambda: " << lambda << endl;
     if (method == "regular") {
         bool omitPrint = args.size() < 5 || args[4].toInt() == 0;
-        style.transform(lambda, omitPrint);
+        style.transform(lambda, !omitPrint);
     } else if (method == "fast") {
         cout << "m: " << numFacesForFastPre << endl;
         bool omitPrint = args.size() < 6 || args[5].toInt() == 0;
-        style.fastTransform(lambda, numFacesForFastPre, omitPrint);
+        style.fastTransform(lambda, numFacesForFastPre, !omitPrint);
     } else {
         cerr << "Error: Unknown method \"" << method.toUtf8().constData() << "\"" << endl;
     }
